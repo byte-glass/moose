@@ -1,5 +1,9 @@
 # moose - plotting in julia
 
+## how do I ...
+
+ - set the aspect ratio e.g. set it to one?
+
 ## Plots.jl
 
 See `moose.jl`.

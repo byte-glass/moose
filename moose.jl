@@ -46,6 +46,13 @@ plot!(xscale = :log10, yscale = :log10, minorgrid = true, tick_direction = :out)
 ### so too can xlims and ylims
 ylims!(1e-5, 1e+0)
 
+### LaTeX strings
+using LaTeXStrings
+
+title!(L"$\frac{1}{1+x}$")
+xlabel!(L"x")
+ylabel!(L"y")
+
 ## Attributes  
 
 ### see https://docs.juliaplots.org/latest/attributes/#attributes
@@ -60,6 +67,61 @@ plotattr(:Series)
 plotattr(:Subplot)
 plotattr(:Axis)
 
+## combine plots
+
+### e.g. `layout = (2, 2)` in the call to plot in the following
+
+x = range(0, 10, length=100)
+y1 = @. exp(-0.1x) * cos(4x)
+y2 = @. exp(-0.3x) * cos(4x)
+y3 = @. exp(-0.1x)
+y4 = @. exp(-0.3x)
+y = [y1 y2 y3 y4]
+
+p1 = plot(x, y)
+p2 = plot(x, y, title="Title 2", lw=3)
+p3 = scatter(x, y, ms=2, ma=0.5, xlabel="xlabel 3")
+p4 = scatter(x, y, title="Title 4", ms=2, ma=0.2)
+
+plot(p1, p2, p3, p4, layout = (2, 2), legend=false) # layout = (2, 2) !!
+
+## themes
+
+using PlotThemes
+
+theme(:mute)
+theme(:solarized_light)
+theme(:sand)
+theme(:vibrant)
+
+## scatter plots
+
+using RDatasets, StatsPlots
+
+iris = dataset("datasets", "iris")
+
+@df iris scatter(:SepalLength, :SepalWidth, group = :Species)
+@df iris scatter(:SepalLength, :SepalWidth, mc = :pink, ms = 12, ma = 0.5)
+
+### how to specify colour and/or marker by :Species ??
+
+
+## histograms
+
+### what is a marginalhist?
+@df iris marginalhist(:PetalLength, :PetalWidth)
+
+
+## contour plot
+
+f(x, y) = (3x + y^2) * abs(sin(x) + cos(y))
+
+x = range(0, 5, length=100)
+y = range(0, 3, length=50)
+z = @. f(x', y)
+
+contour(x, y, z, levels = 20, lw = 1)
+contour(x, y, z, levels = 50, lw = 0, fill = true)
 
 
 
