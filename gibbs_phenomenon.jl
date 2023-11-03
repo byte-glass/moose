@@ -9,6 +9,8 @@ function w(x; c = 2, L = 2, k = 3)
     2 * c * sum(sin(j * omega * x) / j for j in 2 .* (1:k) .- 1) / pi
 end
 
+using Plots
+
 x = range(0, 0.5, length = 500)
 
 plot(x, w.(x), legend = false, tick_direction = :out)

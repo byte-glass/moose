@@ -5,6 +5,8 @@
 f(x; N = 5, a = 0.8, b = 8) = sum(a^n * cos(b^n * pi * x) for n in 0:N)
 
 
+using Plots
+
 x = range(0, 1.0, length = 500)
 plot(x, f.(x, N = 2), lw = 0.5, legend = false, tick_orientation = :out, grid = false)
 
