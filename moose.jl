@@ -106,12 +106,6 @@ iris = dataset("datasets", "iris")
 ### how to specify colour and/or marker by :Species ??
 
 
-## histograms
-
-### what is a marginalhist?
-@df iris marginalhist(:PetalLength, :PetalWidth)
-
-
 ## contour plot
 
 f(x, y) = (3x + y^2) * abs(sin(x) + cos(y))
@@ -124,6 +118,56 @@ contour(x, y, z, levels = 20, lw = 1)
 contour(x, y, z, levels = 50, lw = 0, fill = true)
 
 
+## histograms
+
+histogram(randn(10^3), legend = false, color = :beige)
+
+histogram(randn(10^3), legend = false, bins = :sqrt)
+histogram(randn(10^3), legend = false, bins = :scott)
+histogram(randn(10^3), legend = false, bins = 15)
+histogram(randn(10^3), legend = false, bins = range(-5, 5, length = 21))
+
+### normalise; `normalize = [:true|:pdf|:probability|:density]
+histogram(randn(10^3), legend = false, bins = range(-5, 5, length = 21), normalize = :true)
+
+## 2d histogram
+
+histogram2d(randn(10^4), randn(10^4))
+
+histogram2d(randn(10^4), randn(10^4), normalize = :pdf, show_empty_bins = true)
+
+### what is a marginalhist?
+@df iris marginalhist(:PetalLength, :PetalWidth)
 
 
-### end
+## "Inputs are arguments, not keywords" and "Columns are series"
+
+### The following supposedly serves as an example of just this!?
+
+xs = range(0, 2π, length = 10)
+data = [sin.(xs) cos.(xs) 2sin.(xs) 2cos.(xs)]
+
+# We put labels in a row vector: applies to each series
+labels = ["Apples" "Oranges" "Hats" "Shoes"]
+
+# Marker shapes in a column vector: applies to data points
+markershapes = [:circle, :star5]
+
+# Marker colors in a matrix: applies to series and data points
+markercolors = [
+    :green :orange :black :purple
+    :red   :yellow :brown :white
+]
+
+plot(
+    xs,
+    data,
+    label = labels,
+    shape = markershapes,
+    color = markercolors,
+    markersize = 10
+)
+
+### the above generates a lot of warnings!?
+
+
